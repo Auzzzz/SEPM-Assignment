@@ -67,12 +67,51 @@ def home():
     if 'islogged' in session:
         #user is logged in keep them around
         #pass through values
-        name = session['name']
-        print(session)
-        return render_template('index.html', name = name )
+
+        return render_template('index.html', session = session )
     else:
         #return to login screen
         return redirect(url_for('login'))
 
+@app.route('/admin/create')
+def adminCreateUser():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            
+
+            return render_template('admin_create_users.html')
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
+@app.route('/admin')
+def adminHome():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            
+            #check db for user & password
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT accountid, name, accountStatus, accountTypeID FROM accounts')
+            #fetch the record
+            allusers = cursor.fetchall()
+            print(allusers)
+            print(allusers[1]['name'])
+
+            return render_template('admin_home.html', allusers = allusers, len = len(allusers))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
+    
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

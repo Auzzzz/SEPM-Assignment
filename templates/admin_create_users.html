@@ -3,10 +3,11 @@
 
 {% block content %}
 <h2>Create Users</h2>
-<form action="{{ url_for('createUser') }}" method="post">
-    <input type="text" name="accountid" placeholder="Staff ID" id="accountid" required>
-    <input type="password" name="password" placeholder="Password" id="password" required>
-    <div class="msg">{{ msg }}</div>
+<form action="{{ url_for('adminCreateUser') }}" method="post">
+    <input type="text" name="name" placeholder="User's Name" id="name" required>
+    <input type="text" name="password" placeholder="Create Password for user" id="password" required>
+    <input type="text" name="accountStatus" placeholder="Account Status" id="accountStatus" required>
+    <input type="text" name="accountType" placeholder="Account Type" id="accountType" required>
     <input type="submit" value="Login">
 </form>
 

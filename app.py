@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'nvjsnf9384'
 
 # DB connection 
-app.config['MYSQL_HOST'] = '35.244.104.218'
+app.config['MYSQL_HOST'] = '35.244.104.154'
 app.config['MYSQL_USER'] = "root"
 app.config['MYSQL_PASSWORD'] = "Banana123#"
 app.config['MYSQL_DB'] = 'sepm'
@@ -30,7 +30,7 @@ def login():
 
         #check db for user & password
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE accountid = %s AND password = %s', (accountid, password))
+        cursor.execute('SELECT * FROM account WHERE accountid = %s AND password = %s', (accountid, password))
         #fetch the record
         user = cursor.fetchone()
         
@@ -73,11 +73,30 @@ def home():
         #return to login screen
         return redirect(url_for('login'))
 
-@app.route('/admin/create')
+@app.route('/admin/create', methods=['GET', 'POST'])
 def adminCreateUser():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
+            #set msg to pass through if needed
+            msg = ''
+            if request.method == 'POST' and 'name' in request.form and 'password' in request.form and 'accountStatus' in request.form and 'accountType' in request.form:
+                #form values into variables
+                name = request.form['name']
+                password = request.form['password']
+                accountStatus = request.form['accountStatus']
+                accountType = request.form['accountType']
             
+                #insert account into DB
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('INSERT INTO account VALUES (NULL, %s, %s, %s, %s)', (name, password, accountType, accountStatus ))
+                mysql.connection.commit()
+                session['msg'] = "User Registered"
+
+                return redirect(url_for('adminHome'))
+
+            elif request.method == 'POST':
+                # Form has no data in it
+                msg = 'Please fill out the form!'
 
             return render_template('admin_create_users.html')
 
@@ -89,20 +108,40 @@ def adminCreateUser():
         return redirect(url_for('login'))
 
 
-@app.route('/admin')
-def adminHome():
+@app.route('/admin/deactivate', methods=['GET', 'POST'])
+def adminCreateUser():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
             
             #check db for user & password
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT accountid, name, accountStatus, accountTypeID FROM accounts')
+            cursor.execute('SELECT accountid, name, accountStatus, accountTypeID FROM account')
             #fetch the record
             allusers = cursor.fetchall()
-            print(allusers)
-            print(allusers[1]['name'])
 
-            return render_template('admin_home.html', allusers = allusers, len = len(allusers))
+            return redirect(url_for('adminHome'))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def adminHome():
+    msg = ''
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+
+            #check db for user & password
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT accountid, name, accountStatus, accountTypeID FROM account')
+            #fetch the record
+            allusers = cursor.fetchall()
+
+            return render_template('admin_home.html', allusers = allusers, len = len(allusers), msg = session['msg'])
 
         else: 
             #return to home if not an admin

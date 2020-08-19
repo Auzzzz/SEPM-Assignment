@@ -109,17 +109,13 @@ def adminCreateUser():
 
 
 @app.route('/admin/deactivate', methods=['GET', 'POST'])
-def adminCreateUser():
+def adminDeactivateUser():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
-            
-            #check db for user & password
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT accountid, name, accountStatus, accountTypeID FROM account')
-            #fetch the record
-            allusers = cursor.fetchall()
+            if request.method == 'POST' and 'accountid' in request.form:
+                
 
-            return redirect(url_for('adminHome'))
+                return redirect(url_for('adminHome'))
 
         else: 
             #return to home if not an admin
@@ -131,17 +127,15 @@ def adminCreateUser():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def adminHome():
-    msg = ''
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
-
             #check db for user & password
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute('SELECT accountid, name, accountStatus, accountTypeID FROM account')
             #fetch the record
             allusers = cursor.fetchall()
 
-            return render_template('admin_home.html', allusers = allusers, len = len(allusers), msg = session['msg'])
+            return render_template('admin_home.html', allusers = allusers, len = len(allusers))
 
         else: 
             #return to home if not an admin

@@ -3,13 +3,17 @@
 
 {% block content %}
 <h2>All users</h2>
-<h4>{{ msg }}</h4>
+<h4></h4>
 {%for i in range(0, len)%} 
     <hr>
     <li>Account Id: {{ allusers[i]['accountid'] }}</li> 
     <li>Name: {{ allusers[i]['name'] }}</li> 
     <li>Account Status: {{ allusers[i]['accountStatus'] }}</li> 
     <li>Account Type: {{ allusers[i]['accountTypeID'] }}</li> 
+    <form action="{{ url_for('adminDeactivateUser') }}" method="post" autocomplete="off">
+        <input hidden id="accountid" value="{{ allusers[i]['accountid'] }}">
+        <input type="submit" value="Deactivate User">
+    </form>
 {%endfor%} 
 
 {% endblock %}

@@ -88,7 +88,7 @@ def adminCreateUser():
             
                 #insert account into DB
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute('INSERT INTO account VALUES (NULL, %s, %s, %s, %s)', (name, password, accountType, accountStatus ))
+                cursor.execute('INSERT INTO account VALUES (NULL, %s, %s, %s, %s)', (password, name, accountType, accountStatus ))
                 mysql.connection.commit()
                 session['msg'] = "User Registered"
 

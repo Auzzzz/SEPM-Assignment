@@ -144,6 +144,77 @@ def adminHome():
         #return to login screen
         return redirect(url_for('login'))
 
+@app.route('/admin/locations', methods=['GET', 'POST'])
+def adminHomeLocations():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            #check db for user & password
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM location')
+            #fetch the record
+            locations = cursor.fetchall()
+
+            return render_template('admin_locations.html', locations = locations, len = len(locations))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+@app.route('/admin/deletelocation', methods=['GET', 'POST'])
+def adminDelLocation():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            if request.method == 'POST' and 'id' in request.form:
+                locationid = request.form['locationid']
+                #check db for user & password
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('DELETE FROM location WHERE id = %s', (locationid))
+
+                return redirect(url_for('adminHomeLocations'))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
+
+@app.route('/admin/newlocation', methods=['GET', 'POST'])
+def newlocation():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+           
+            #get post data from form
+            if request.method == 'POST' and 'name' in request.form and 'desc' in request.form and 'gps' in request.form and 'time' in request.form:
+                #form values into variables
+                name = request.form['name']
+                desc = request.form['desc']
+                gpscords = request.form['gps']
+                time = request.form['time']
+            
+                #insert account into DB
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('INSERT INTO location VALUES (NULL, %s, %s, %s, %s)', (name, desc, gpscords, time ))
+                mysql.connection.commit()
+                print(cursor.lastrowid)
+                session['msg'] = "Location Registered"
+
+                return redirect(url_for('adminHome'))
+            return render_template('admin_newlocation.html')
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
 
     
 if __name__ == '__main__':

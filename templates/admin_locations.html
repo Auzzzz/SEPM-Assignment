@@ -2,23 +2,41 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>All Locations</h2>
+<h2 class="display-3 mt-3 text-center" >All Locations</h2>
 <h4>fix desc edit</h4>
 {%for i in range(0, len)%} 
     <hr>
     <form action="{{ url_for('test') }}" method="post">
-        <li>Location Id: {{ locations[i]['id'] }}</li> <input type ="text" name="locationid" value="{{ locations[i]['id'] }}" readonly>
-        <li>Name: {{ locations[i]['name'] }}</li> <input type ="text" name="name" value="{{ locations[i]['name'] }}">
-        <li>Location Description: {{ locations[i]['desc'] }}</li> <input type ="text" name="desc" value="{{ locations[i]['desc'] }}">
-        <li>GPS Cords: {{ locations[i]['gpscords'] }}</li> <input type ="text" name="gpscords" value="{{ locations[i]['gpscords'] }}">
-        <li>Time spent at Location {{ locations[i]['time'] }}</li> <input type ="number" name="time" value="{{ locations[i]['time'] }}">
-        <input type="submit" value="Edit location">
+        <div class="form-group">
+            <label for="location">Location Id</label>
+            <input  class="form-control"  type ="text" name="locationid" value="{{ locations[i]['id'] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input  class="form-control" type ="text" name="name" value="{{ locations[i]['name'] }}" >
+        </div>
+        <div class="form-group">
+            <label for="Location Description">Location Description</label>
+            <input  class="form-control" type ="text" name="desc" value="{{ locations[i]['desc'] }}">
+        </div>
+        <div class="form-group">
+            <label for="GPS Cords">GPS Cords</label>
+            <input  class="form-control" type ="text" name="gpscords" value="{{ locations[i]['gpscords'] }}">
+        </div>
+        <div class="form-group">
+            <label for="Time spent at Location ">Time spent at Location </label>
+            <input  class="form-control"  type ="number" name="time" value="{{ locations[i]['time'] }}">
+        </div>
+        <button class="btn btn-primary" type="submit" value="Edit location">Edit Location</button>
     </form>
     <form action="{{ url_for('adminDelLocation') }}" method="post">
+
         <input type ="text" name="locationid" value="{{ locations[i]['id'] }}" hidden>
-        <input type="submit" value="Delete location">
+        <button class="btn btn-danger mt-3" type="submit" value="Delete location">Delete Location</button>
     </form>
+    
 
 {%endfor%} 
 
 {% endblock %}
+

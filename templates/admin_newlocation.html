@@ -2,13 +2,52 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Create a Location</h2>
-<form action="{{ url_for('newlocation') }}" method="post">
-    <input type="text" name="name" placeholder="Name of Location" id="name" required>
-    <input type="text" name="desc" placeholder="Description of the location" id="desc" required>
-    <input type="text" name="gps" placeholder="Google GPS Cords" id="gps" required>
-    <input type="text" name="time" placeholder="Time at location" id="accountType" required>
-    <input type="submit" value="Create location">
-</form>
+
+
+<div class="container mt-3" style="width: 500px;">
+    <h2 class="display-3 text-center" >Create a Location</h2>
+    <form action="{{ url_for('newlocation') }}" method="post">
+        <div class="form-group">
+            <label for="name">Locations Name</label>
+            <input  class="form-control"  type="text" name="name" placeholder="Name of Location" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description"> Description</label>
+            <input  class="form-control" type="text" name="desc" placeholder="Description of the location" id="desc" required>
+        </div>
+        <div class="form-group">
+            <label for="cords">Google GPS Cords</label>
+            <input  class="form-control" type="text" name="gps" placeholder="Google GPS Cords" id="gps" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Time</label>
+            <input  class="form-control" type="text" name="time" placeholder="Time at location" id="accountType" required>
+        </div>
+        <button class="btn btn-primary" type="submit" value="Create location">Create Location</button>
+    </form>
+    </div>
 
 {% endblock %}
+
+<div class="container mt-3" style="width: 500px;">
+    <h2 class="display-3 text-center" >Create a Location</h2>
+    <form action="{{ url_for('newlocation') }}" method="post">
+        <div class="form-group">
+            <label for="name">Locations Name</label>
+            <input  class="form-control"  type="text" name="name" placeholder="Name of Location" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description"> Description</label>
+            <input  class="form-control" type="text" name="desc" placeholder="Description of the location" id="desc" required>
+        </div>
+        <div class="form-group">
+            <label for="cords">Google GPS Cords</label>
+            <input  class="form-control" type="text" name="gps" placeholder="Google GPS Cords" id="gps" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Time</label>
+            <input  class="form-control" type="text" name="time" placeholder="Time at location" id="accountType" required>
+        </div>
+        <button class="btn btn-primary" type="submit" value="Create location">Create location</button>
+    </form>
+    </div>

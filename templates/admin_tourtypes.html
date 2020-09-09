@@ -6,10 +6,10 @@
 <h4></h4>
 {%for i in range(0, len)%} 
     <hr>
-    <li>Type ID: {{ tourtypes[i]['id'] }}</li> 
+    <li>Type ID: {{ tourtypes[i]['tourtid'] }}</li> 
     <li>Type: {{ tourtypes[i]['name'] }}</li> 
-    <form action="{{ url_for('tourtypesdelete') }}" method="post" autocomplete="off">
-        <input hidden id="id" name='id' value="{{ tourtypes[i]['id'] }}">
+    <form action="{{ url_for('tourtypesDelete') }}" method="post" autocomplete="off">
+        <input hidden id="id" name='id' value="{{ tourtypes[i]['tourtid'] }}">
         <input type="submit" value="Delete Type">
     </form>
 {%endfor%} 

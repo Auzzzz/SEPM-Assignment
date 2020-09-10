@@ -6,7 +6,7 @@
 <h4>fix desc edit</h4>
 {%for i in range(0, len)%} 
     <hr>
-    <form action="{{ url_for('test') }}" method="post">
+    <form action="{{ url_for('adminEditLocation') }}" method="post">
         <li>Location Id: {{ locations[i]['id'] }}</li> <input type ="text" name="locationid" value="{{ locations[i]['id'] }}" readonly>
         <li>Name: {{ locations[i]['name'] }}</li> <input type ="text" name="name" value="{{ locations[i]['name'] }}">
         <li>Location Description: {{ locations[i]['desc'] }}</li> <input type ="text" name="desc" value="{{ locations[i]['desc'] }}">

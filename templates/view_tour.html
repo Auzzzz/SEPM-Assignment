@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Tours - {{ tours[0]['tourid'] }}, {{ tours[0]['name'] }} </h2>
+
 <h4></h4>
 
     {%for i in range (0,tl_len): %}
@@ -17,7 +17,8 @@
                 <br><hr>
             {%endif%} 
         {%endfor%} 
-    {%endfor%} 
+    {%endfor%}
+
 
 
 {% endblock %}

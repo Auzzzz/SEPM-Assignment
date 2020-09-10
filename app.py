@@ -389,6 +389,76 @@ def createNewTour():
         #return to login screen
         return redirect(url_for('login'))
 
+@app.route('/admin/alter', methods=['GET', 'POST'])
+def alterTour():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+
+            #get all locations
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM location')
+            #fetch the record
+            locations = cursor.fetchall()
+
+            return render_template('admin_alter_tour.html', locations = locations, len = len(locations))
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login')) 
+
+@app.route('/admin/addlocation', methods=['GET', 'POST'])
+def alterTourAdd():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+
+            locations = request.form.getlist('newtour')
+            total = len(locations)
+
+            #get the id of the created tour
+            tourid = request.form['tourid']
+            
+            #insert the selected locations into the tour_location db as individual entrties
+            order = 1
+            for i in range(0,total):
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('INSERT INTO tour_location VALUES (NULL, %s, %s, %s)', (tourid, locations[i], order))
+                mysql.connection.commit()
+                order += 1
+                
+            #get all locations for each tour
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM tour_location where tourid = %s', [tourid])
+            #fetch the record
+            tour_location = cursor.fetchall()
+            tour_location_len = len(tour_location)
+                
+            total_time = 0
+
+            for i in range (0, tour_location_len):
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('SELECT * FROM location where id = %s', [tour_location[i]['locationid']])
+                location = cursor.fetchone()
+                print("location", location)
+                time = location['time']
+                total_time += time
+                i += 1
+
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute("""Update tours set totaltime = %s WHERE tourid = %s """, [total_time, tourid])
+            mysql.connection.commit()
+
+            return redirect(url_for('tours'))
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login')) 
+
+
+
 
 @app.route('/admin/tourtypes', methods=['GET', 'POST'])
 def tourtypes():
@@ -445,7 +515,7 @@ def tourtypesDelete():
                 #check db for user & password
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute('DELETE FROM tour_types WHERE id = %s', (typeid))
-
+                mysql.connection.commit()
                 return redirect(url_for('tourtypes'))
 
         else: 

@@ -2,16 +2,9 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Tours - {{ tours[0]['tourid'] }}, {{ tours[0]['name'] }} </h2>
+
 <h4></h4>
-    {%for i in range(0, len)%} 
-        <hr>
-        <li>Tour Id: {{ tours[i]['tourid'] }}</li> 
-        <li>Name: {{ tours[i]['name'] }}</li>
-        <li>Description : {{ tours[i]['desc'] }}</li> 
-        <li>Total Tour Length: {{ tours[i]['totaltime'] }}</li> 
-        <br><hr>
-    {%endfor%}     
+
     {%for i in range (0,tl_len): %}
         {% for x in range (0,loc_len): %}
             {% if location[x]['id'] == tour_location[i]['locationid'] %}
@@ -24,7 +17,8 @@
                 <br><hr>
             {%endif%} 
         {%endfor%} 
-    {%endfor%} 
+    {%endfor%}
+
 
 
 {% endblock %}

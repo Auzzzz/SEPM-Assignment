@@ -2,19 +2,37 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>All Tours</h2>
+<div class="container mt-3"></div>
+<h2 class="display-3 my-3 text-center" >All Tours</h2>
 <h4></h4>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">Tour Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Total Tour Length</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
 {%for i in range(0, len)%} 
-    <hr>
-    <li>Tour Id: {{ tours[i]['tourid'] }}</li> 
-    <li>Name: {{ tours[i]['name'] }}</li>
-    <li>Description : {{ tours[i]['desc'] }}</li> 
-    <li>Total Tour Length: {{ tours[i]['totaltime'] }}</li> 
+<tbody>
+    <tr>
+    <th scope="row"> {{ tours[i]['tourid'] }}</th>
+    <td>{{ tours[i]['name'] }}</td>
+    <td>{{ tours[i]['desc'] }}</td>
+    <td>{{ tours[i]['totaltime'] }}</td>
+    <td>
     <form action="{{ url_for('individualTours') }}" method="post" autocomplete="off">
         <input hidden name="tourid" value="{{ tours[i]['tourid'] }}">
-        <input type="submit" value="View Tour">
+        <button class="btn btn-primary" type="submit" value="View Tour">View Tour</button>
     </form>
-    <br>
+</td>
+</tr>
+</tbody>
 {%endfor%} 
+</table>
+</div>
 
 {% endblock %}
+

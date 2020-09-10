@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Login</title>
-	</head>
-	<body>
-		<div class="login">
-			<h1>Login</h1>
+
+{% extends 'header.html' %}
+
+{% block content %}
+			<div class="container mt-3" style="width: 500px;">
+			<h1 class="display-3 my-3 text-center" >Login</h1>
 			<form action="{{ url_for('login') }}" method="post">
-				<input type="text" name="accountid" placeholder="Staff ID" id="accountid" required>
-				<input type="password" name="password" placeholder="Password" id="password" required>
-				<div class="msg">{{ msg }}</div>
-				<input type="submit" value="Login">
+				<div class="form-group">
+				<label for="sID"> Staff ID</label>
+				<input class="form-control mb-3" type="text" name="accountid" placeholder="Enter your Staff ID" id="accountid" required>
+				</div>
+				<div class="form-group">
+			    <label for="password"> Password</label>
+				<input  class="form-control" type="password" name="password" placeholder="Enter your assword" id="password" required>
+				</div>   
+				<p class="msg lead">{{ msg }}</p>
+				<button class="btn btn-primary" type="submit" value="Login">Login</button>
 			</form>
 		</div>
-	</body>
-</html>
+	{% endblock %}

@@ -17,8 +17,17 @@
         <tr>
           <th scope="row">{{ allusers[i]['accountid'] }}</th>
           <td>{{ allusers[i]['name'] }}</td>
-          <td>{{ allusers[i]['accountStatus'] }}</td>
-          <td>{{ allusers[i]['accountTypeID'] }}</td>
+          {%for a in range(0, userlen)%}
+            {% if allusers[i]['accountStatus'] == usertypes[a]['accountStatusID'] %}
+              <td>{{ usertypes[a]['accountStatusDesc'] }}</td>
+            {%endif%}
+          {%endfor%}
+
+          {%for a in range(0, accountlen)%}
+            {% if allusers[i]['accountTypeID'] == accounttypes[a]['accountTypeID'] %}
+              <td>{{ accounttypes[a]['accountTypeDesc'] }}</td>
+            {%endif%}
+          {%endfor%}
           <td>
             <form
               action="{{ url_for('adminDeactivateUser') }}"

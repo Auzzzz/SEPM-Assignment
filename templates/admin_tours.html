@@ -12,6 +12,7 @@
           <th scope="col">Name</th>
           <th scope="col">Description</th>
           <th scope="col">Total Tour Length</th>
+          <th scope="col">Tour Tag</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -22,11 +23,20 @@
     <td>{{ tours[i]['name'] }}</td>
     <td>{{ tours[i]['desc'] }}</td>
     <td>{{ tours[i]['totaltime'] }}</td>
+    {%for a in range(0, tourlen)%}
+      {% if tours[i]['tourTypeID'] == tourtypes[a]['tourtid'] %}
+        <td>{{ tourtypes[a]['name'] }}</td>
+      {%endif%}
+    {%endfor%}
     <td>
     <form action="{{ url_for('individualTours') }}" method="post" autocomplete="off">
         <input hidden name="tourid" value="{{ tours[i]['tourid'] }}">
         <button class="btn btn-primary" type="submit" value="View Tour">View Tour</button>
     </form>
+    <form action="{{ url_for('toursDelete') }}" method="post" autocomplete="off">
+      <input hidden name="tourid" value="{{ tours[i]['tourid'] }}">
+      <button class="btn btn-danger" type="submit" value="View Tour">Delete Tour</button>
+  </form>
 </td>
 </tr>
 </tbody>

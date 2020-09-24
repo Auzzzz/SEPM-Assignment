@@ -12,6 +12,10 @@
         <input hidden id="id" name='id' value="{{ tourtypes[i]['tourtid'] }}">
         <input type="submit" value="Delete Type">
     </form>
+    <form action="{{ url_for('tourtypesEdit') }}" method="post" autocomplete="off">
+        <input hidden id="typeid" name='typeid' value="{{ tourtypes[i]['tourtid'] }}">
+        <input type="submit" value="Edit Type">
+    </form>
 {%endfor%} 
 
 {% endblock %}

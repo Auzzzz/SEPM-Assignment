@@ -15,13 +15,25 @@
 </div>
 <div class="form-group">
     <label for="accountStatus"> Account Status</label>
-    <input class="form-control" type="text" name="accountStatus" placeholder="Account Status" id="accountStatus" required>
+    <!--<input class="form-control" type="text" name="accountStatus" placeholder="Account Status" id="accountStatus" required>-->
+    <select id = "accountStatus" name = "accountStatus" required>
+        <option selected disabled>Choose here</option>
+          {% for each in accounttypes %}
+            <option value='{{each.accountStatusID}}'>{{each.accountStatusDesc}}</option>
+          {% endfor %}
+          </select>
 </div>
 <div class="form-group">
     <label for="accountType"> Account Type</label>
-    <input class="form-control" type="text" name="accountType" placeholder="Account Type" id="accountType" required>
+    <!--<input class="form-control" type="text" name="accountType" placeholder="Account Type" id="accountType" required>-->
+    <select id = "accountType" name = "accountType" required>
+        <option selected disabled>Choose here</option>
+          {% for each in usertypes %}
+            <option value='{{each.accountTypeID}}'>{{each.accountTypeDesc}}</option>
+          {% endfor %}
+          </select>    
 </div>
-    <input type="submit"  class="btn btn-primary" value="Login">
+    <input type="submit"  class="btn btn-primary" value="Create Account">
 </form>
 </div>
 </div>

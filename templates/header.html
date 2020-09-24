@@ -6,32 +6,6 @@
 		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body>
-		<nav class="navtop">
-			<div>
-				<h1>Welcome to the Humanoid Navigation Control System</h1>
-                <a href="{{ url_for('home') }}"> Home | </a>
-				<a href="{{ url_for('logout') }}"> Logout</a>
-			</div>
-			<br>
-			<div>
-				<a href="{{ url_for('adminHome') }}"> Admin Home | </a>
-				<a href="{{ url_for('adminCreateUser') }}"> Create User</a>
-			</div>
-			<br>
-			<div>
-				<a href="{{ url_for('adminHomeLocations')}}">All Locations | </a>
-				<a href="{{ url_for('newlocation')}}"> Create new Location</a>
-			</div>
-			<br>
-			<div>
-				<a href="{{ url_for('tours')}}">All Tours | </a>
-				<a href="{{ url_for('newtour')}}"> Create new Tour </a>
-				<a href="{{ url_for('alterTour')}}"> Add a Location to a Tour </a>
-			</div>
-			<br>
-			<div>
-				<a href="{{ url_for('tourtypes')}}"> View Tour Types | </a>
-				<a href="{{ url_for('tourtypesCreate')}}"> Create Tour Types </a>
 		<nav class="navbar navbar-expand-lg navbar-light bg-dark navbar-dark">
 			<a class="navbar-brand" href="#">HNCS</a>
 			{%if not msg %}
@@ -65,6 +39,15 @@
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					  <a class="dropdown-item" href="{{ url_for('tours')}}">All Tours</a>
 					  <a class="dropdown-item" href="{{ url_for('newtour')}}"> Create new Tour</a>
+					  <a class="dropdown-item" href="{{ url_for('alterTour')}}"> Add a Location to a Tour </a>
+				  </li>
+				  <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  Tour Types
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="{{ url_for('tourtypes')}}"> View Tour Types </a>
+				      <a class="dropdown-item" href="{{ url_for('tourtypesCreate')}}"> Create Tour Types </a>
 				  </li>
 				</ul>
 

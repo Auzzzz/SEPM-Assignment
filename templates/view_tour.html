@@ -82,20 +82,12 @@
                         <input  class="form-control" value="{{ location[x]['time'] }}" readonly>
                     </div>
                 </form>
-                <div class="form-group">
-                    <form action="{{ url_for('individualTours') }}" method="post" autocomplete="off">
-                        <input hidden name="tourid" value="{{ tours[0]['tourid'] }}">
-                        <button class="btn btn-primary" type="submit" value="View Tour">Edit Indivdual Tour</button>
-                    </form>
-                </div>
+
                 </div>
             </div>
         {%endif%}
     {%endfor%}  
 {%endfor%} 
 <br>
-<div class="form-group">
-    <button class="btn btn-primary" type="submit" form="EOrder">Edit Order</button>
-</div>
 {% endblock %}
 

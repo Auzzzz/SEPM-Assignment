@@ -6,16 +6,16 @@
 
 <div class="container mt-3" style="width: 500px;">
     <h2 class="display-3 text-center" >Edit a tour type</h2>
-    <form action="{{ url_for('newlocation') }}" method="post">
+    <form action="{{ url_for('tourtypesEditSubmit') }}" method="post">
         <div class="form-group">
-            <label for="name">Locations Name</label>
-            <input  class="form-control"  type="text" name="name" placeholder="{{ tourtypes[0]['tourtid']}}" id="typeid" readonly>
+            <label for="name">Type ID</label>
+            <input  class="form-control"  type="text" name="tourtid" value="{{ tourtypes[0]['tourtid']}}" id="tourtid" readonly>
         </div>
         <div class="form-group">
-            <label for="description"> Description</label>
-            <input  class="form-control" type="text" name="desc" placeholder="{{ tourtypes[0]['name']}}" id="desc" required>
+            <label for="description"> Type Name</label>
+            <input  class="form-control" type="text" name="name" value="{{ tourtypes[0]['name']}}" id="name" required>
         </div>
-        <button class="btn btn-primary" type="submit" value="Create location">Create Location</button>
+        <button class="btn btn-primary" type="submit" value="Create location">Edit Tour Type</button>
     </form>
     </div>
 

@@ -256,7 +256,6 @@ def newlocation():
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute('INSERT INTO location VALUES (NULL, %s, %s, %s, %s)', (name, desc, gpscords, time ))
                 mysql.connection.commit()
-                print(cursor.lastrowid)
                 session['msg'] = "Location Registered"
 
                 return redirect(url_for('adminHomeLocations'))
@@ -290,23 +289,6 @@ def tours():
             tourtypes = cursor.fetchall()
 
             return render_template('admin_tours.html', tours = tours, len = len(tours), tourtypes = tourtypes, tourlen = len(tourtypes))
-
-        else: 
-            #return to home if not an admin
-            return redirect(url_for('home'))
-    else:
-        #return to login screen
-        return redirect(url_for('login'))
-
-@app.route('/admin/tour/editOrder', methods=['GET', 'POST'])
-def tourEditOrder():
-    if 'islogged' in session:
-        if session['accountTypeID'] == 1:
-            if request.method == 'POST' and 'Test' in request.form:
-                print(request.form.getlist('tourid'))
-                print(request.form.getlist('order'))
-
-                return "Yes"
 
         else: 
             #return to home if not an admin
@@ -373,7 +355,7 @@ def individualTours():
                 #fetch the record
                 tourtypes = cursor.fetchall()
 
-                print(tours[0]['name'])
+                
                 return render_template('view_tour.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes))
 
         else: 
@@ -479,7 +461,6 @@ def createNewTour():
                     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                     cursor.execute('SELECT * FROM location where id = %s', [tour_location[i]['locationid']])
                     location = cursor.fetchone()
-                    print("location", location)
                     time = location['time']
                     total_time += time
                     i += 1
@@ -550,7 +531,6 @@ def alterTourAdd():
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute('SELECT * FROM location where id = %s', [tour_location[i]['locationid']])
                 location = cursor.fetchone()
-                print("location", location)
                 time = location['time']
                 total_time += time
                 i += 1
@@ -639,18 +619,17 @@ def tourtypesDelete():
 def tourtypesEdit():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
-            if request.method == 'POST' and 'tourtid' in request.form:
-                tourtid = request.form['tourtid']
-                
+            if request.method == 'POST' and 'typeid' in request.form:
+                tourtid = request.form['typeid']
                 #get all tours
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
                 cursor.execute('SELECT * FROM tour_types where tourtid = %s', [tourtid])
                 #fetch the record
                 tourtypes = cursor.fetchall()
+                print(tourtypes)
 
             return render_template('admin_tourtypes_edit.html', tourtypes = tourtypes) 
-                
-
+ 
         else: 
             #return to home if not an admin
             return redirect(url_for('home'))
@@ -663,16 +642,15 @@ def tourtypesEdit():
 def tourtypesEditSubmit():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
-            if request.method == 'POST' and 'typeid' in request.form:
-                typeid = request.form['tourid']
-                desc = request.form['desc']
-
+            if request.method == 'POST' and 'tourtid' in request.form:
+                tourtid = request.form['tourtid']
+                name = request.form['name']
                 #update SQL
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute("""Update tour_types set name = %s WHERE tourtid = %s""", [name, typeid])
+                cursor.execute("Update tour_types set name = %s WHERE tourtid = %s", [name, tourtid])
                 mysql.connection.commit()
             
-            return render_template('admin_tourtypes_edit.html', tourtypes = tourtypes) 
+            return redirect(url_for('tourtypes'))
                 
 
         else: 

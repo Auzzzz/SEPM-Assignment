@@ -14,9 +14,7 @@ app.config['MYSQL_DB'] = 'sepm'
 #Init mysql
 mysql = MySQL(app) 
 
-#@app.route('/')
-#def hello_world():
-#    return 'Hello, World!'
+#login page first page to load
 @app.route('/', methods=['GET','POST'])
 def login():
     #set msg to pass through if needed
@@ -56,12 +54,14 @@ def login():
             
     return render_template('login.html', msg=msg)
 
+#logout
 @app.route('/logout')
 def logout():
     session.clear()
 
     return render_template('login.html', msg = 'logged out')
 
+#non admin home
 @app.route('/home')
 def home():
     if 'islogged' in session:
@@ -73,6 +73,7 @@ def home():
         #return to login screen
         return redirect(url_for('login'))
 
+#createw a new user from a admin account
 @app.route('/admin/create', methods=['GET', 'POST'])
 def adminCreateUser():
     if 'islogged' in session:
@@ -120,7 +121,7 @@ def adminCreateUser():
         #return to login screen
         return redirect(url_for('login'))
 
-
+#deactive a user
 @app.route('/admin/deactivate', methods=['GET', 'POST'])
 def adminDeactivateUser():
     if 'islogged' in session:
@@ -138,7 +139,7 @@ def adminDeactivateUser():
         return redirect(url_for('login'))
 
 
-
+#admin home page
 @app.route('/admin', methods=['GET', 'POST'])
 def adminHome():
     if 'islogged' in session:
@@ -173,7 +174,7 @@ def adminHome():
 
 ### Locations ###
 
-
+#location homne
 @app.route('/admin/locations', methods=['GET', 'POST'])
 def adminHomeLocations():
     if 'islogged' in session:
@@ -193,6 +194,7 @@ def adminHomeLocations():
         #return to login screen
         return redirect(url_for('login'))
 
+#delete a location
 @app.route('/admin/deletelocation', methods=['GET', 'POST'])
 def adminDelLocation():
     if 'islogged' in session:
@@ -212,6 +214,7 @@ def adminDelLocation():
         #return to login screen
         return redirect(url_for('login'))
 
+#edit the location
 @app.route('/admin/editlocation', methods=['GET', 'POST'])
 def adminEditLocation():
     if 'islogged' in session:
@@ -238,7 +241,7 @@ def adminEditLocation():
             return redirect(url_for('login'))
 
 
-
+#add a anew location into the db 
 @app.route('/admin/newlocation', methods=['GET', 'POST'])
 def newlocation():
     if 'islogged' in session:
@@ -270,7 +273,7 @@ def newlocation():
 
 
 ### Tours ###
-
+#tours home, display all tours
 @app.route('/admin/tours', methods=['GET', 'POST'])
 def tours():
     if 'islogged' in session:
@@ -297,6 +300,7 @@ def tours():
         #return to login screen
         return redirect(url_for('login'))
 
+#edit a tour name and details then return to tours home
 @app.route('/admin/tour/editd', methods=['GET', 'POST'])
 def tourEditd():
     if 'islogged' in session:
@@ -324,7 +328,7 @@ def tourEditd():
         return redirect(url_for('login'))
 
 
-
+#display all tours 
 @app.route('/admin/tour', methods=['GET', 'POST'])
 def individualTours():
     if 'islogged' in session:
@@ -365,6 +369,7 @@ def individualTours():
         #return to login screen
         return redirect(url_for('login'))
 
+#delete a tour from the DB then returen to tours
 @app.route('/admin/tours/delete', methods=['GET', 'POST'])
 def toursDelete():
     if 'islogged' in session:
@@ -390,6 +395,7 @@ def toursDelete():
         #return to login screen
         return redirect(url_for('login'))
 
+#interface for user to add new tour details into
 @app.route('/admin/newtour', methods=['GET', 'POST'])
 def newtour():
     if 'islogged' in session:
@@ -415,7 +421,7 @@ def newtour():
         #return to login screen
         return redirect(url_for('login'))
 
-
+#create a new tour into the db then return to tour home
 @app.route('/admin/createnewtour', methods=['GET', 'POST'])
 def createNewTour():
     if 'islogged' in session:
@@ -480,6 +486,7 @@ def createNewTour():
         #return to login screen
         return redirect(url_for('login'))
 
+#edit page for the user to alter the tour, displays all locations assiged to tour
 @app.route('/admin/alter', methods=['GET', 'POST'])
 def alterTour():
     if 'islogged' in session:
@@ -499,6 +506,7 @@ def alterTour():
         #return to login screen
         return redirect(url_for('login')) 
 
+#edit a location already in the db then return to home page of tours
 @app.route('/admin/addlocation', methods=['GET', 'POST'])
 def alterTourAdd():
     if 'islogged' in session:
@@ -549,7 +557,7 @@ def alterTourAdd():
 
 
 ### Tour Types ###
-
+#tour types home, display all tour types
 @app.route('/admin/tourtypes', methods=['GET', 'POST'])
 def tourtypes():
     if 'islogged' in session:
@@ -569,7 +577,7 @@ def tourtypes():
         #return to login screen
         return redirect(url_for('login'))
 
-
+#add a your type to the DB
 @app.route('/admin/tourtypes/create', methods=['GET', 'POST'])
 def tourtypesCreate():
     if 'islogged' in session:
@@ -595,6 +603,7 @@ def tourtypesCreate():
         #return to login screen
         return redirect(url_for('login'))
 
+#delete the tour type from the data base then return to tour types home
 @app.route('/admin/tourtypes/delete', methods=['GET', 'POST'])
 def tourtypesDelete():
     if 'islogged' in session:
@@ -615,6 +624,7 @@ def tourtypesDelete():
         #return to login screen
         return redirect(url_for('login'))
 
+#display the edit page for tour types and display the correct details then pass off to tourtypesEditSubmit
 @app.route('/admin/tourtypes/edit', methods=['GET', 'POST'])
 def tourtypesEdit():
     if 'islogged' in session:
@@ -637,7 +647,7 @@ def tourtypesEdit():
         #return to login screen
         return redirect(url_for('login'))
 
-
+#submit the editited tour type to the database then return to tour types main page
 @app.route('/admin/tourtypes/edittype', methods=['GET', 'POST'])
 def tourtypesEditSubmit():
     if 'islogged' in session:
@@ -651,7 +661,7 @@ def tourtypesEditSubmit():
                 mysql.connection.commit()
             
             return redirect(url_for('tourtypes'))
-                
+
 
         else: 
             #return to home if not an admin
@@ -660,76 +670,6 @@ def tourtypesEditSubmit():
         #return to login screen
         return redirect(url_for('login'))
 
-
-
-@app.route('/test', methods=['GET', 'POST'])
-def test():
-
-    
-    #get all locations for each tour
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM tour_location where tourid = %s', [tourid])
-    #fetch the record
-    tour_location = cursor.fetchall()
-    tour_location_len = len(tour_location)
-    
-    total_time = 0
-
-    for i in range (0, tour_location_len):
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM location where id = %s', [tour_location[i]['locationid']])
-        location = cursor.fetchone()
-        print("location", location)
-        time = location['time']
-        total_time += time
-        i += 1
-        
-        
-
-        
-
-
-
-    #print("Tours_locations", tour_location)
-
-    #get all locations in the tour
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM location')
-    #fetch the record
-    location = cursor.fetchall()
-   #print("location", location)
-    tl_length = len(tour_location)
-
-    
-    for i in range (0,tl_length):
-        if tour_location[i]['tourid'] == 23:
-            print(tour_location[i]['locationid'])
-            print(tour_location[i]['order'])
-            print("YES")
-            i =+ 1
-
-    
-    # #get all tours
-    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    # cursor.execute('SELECT * FROM tours')
-    # #fetch the record
-    # tours = cursor.fetchall()
-
-    # print(tours)
-
-    # #get all locations for each tour
-    # cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    # cursor.execute('SELECT * FROM tour_location')
-    # #fetch the record
-    # tour_location = cursor.fetchall()
-    # tl_length = len(tour_location)
-
-    # for i in range (0,tl_length):
-    #     if tour_location[i]['tourid'] == 23:
-    #         print(tour_location[i]['locationid'])
-    #         print(tour_location[i]['order'])
-    #         i =+ 1
-    return render_template('login.html')
   
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

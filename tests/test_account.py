@@ -13,10 +13,18 @@ class AccountTest(unittest.TestCase):
         app.config['DEBUG'] = False
         self.app = app.test_client()
         #db conifg
-        app.config['MYSQL_HOST'] = '35.244.104.154'
-        app.config['MYSQL_USER'] = "root"
+        app.config['MYSQL_HOST'] = '167.71.112.220'
+        app.config['MYSQL_USER'] = "user"
         app.config['MYSQL_PASSWORD'] = "Banana123#"
         app.config['MYSQL_DB'] = 'sepm'
+
+        with self.app.session_transaction() as session:
+            session['islogged'] = True
+            session['accountid'] = 1
+            session['name'] = "Admin - Chris K"
+            session['accountTypeID'] = 1
+        
+
 
     # executed after each test
     @classmethod
@@ -37,63 +45,26 @@ class AccountTest(unittest.TestCase):
             '/logout',
             follow_redirects=True
     )
-    
-    def load_routes_after_login(self, route, data):
-        response = self.app.get(route, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(data, response.data)
-    
     def create(self,name,password,accountStatus,accountType):
         return self.app.post('/admin/create',
         data = dict(name = name,password = password,
         accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
+    
+    def deactivate(self,name,password,accountStatus,accountType):
+        return self.app.post('/admin/create',
+        data = dict(name = name,password = password,
+        accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
+
+
 
     ### Unit Test ###
-
-    # Test login as Admin user
-    def test_valid_admin_login(self):
-        response = self.login('1', '123')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome back, Admin - Chris K!', response.data)
-   
-    # Test login as Worker user
-    def test_valid_admin_worker(self):
-        response = self.login('145', '123')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome back, ATest!', response.data)
-
-    # Test login with invalid credential
-    def test_invalid_login(self):
-        response = self.login('user', 'user')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'user does not exsist please contact an administrator', response.data)
-    
-    
-    # Test logout
-    def test_logout(self):
-        response = self.logout()
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'logged out', response.data)
-
-    # Test routes after login
-    def test_load_routes_after_login(self):
-        response = self.login('1', '123')
-        self.assertEqual(response.status_code, 200)
-        self.load_routes_after_login('/home',b'Welcome back, Admin - Chris K!')
-        self.load_routes_after_login('/admin/create',b'Create Users')
-        self.load_routes_after_login('/admin',b'All users')
-        self.load_routes_after_login('/admin/locations',b'All Locations')
-        self.load_routes_after_login('/admin/newlocation',b'Create a Location')
-        self.load_routes_after_login('/admin/tours',b'All Tours')
-        self.load_routes_after_login('/admin/newtour',b'Create new Tour')
-        self.load_routes_after_login('/admin/alter',b'Add Location to a Tour')
-        self.load_routes_after_login('/admin/tourtypes',b'All types')
-        self.load_routes_after_login('/admin/tourtypes/create',b'Create a New tour type')
-
     def test_create_admin_user(self):
-        response = self.create('test1','test1','Active','Admin')
+        response = self.create('test1','test1','1','1')
         self.assertEqual(response.status_code, 200)
-        
+    
+    def test_deactivate_admin_user(self):
+        response = self.create('test1','test1','1','1')
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()

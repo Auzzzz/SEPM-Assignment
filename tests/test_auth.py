@@ -50,7 +50,7 @@ class AuthTest(unittest.TestCase):
         data = dict(name = name,password = password,
         accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
 
-    ### Unit Test ###
+    ### Unit Tests ###
 
     # Test login as Admin user
     def test_valid_admin_login(self):

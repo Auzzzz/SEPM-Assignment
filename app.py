@@ -6,8 +6,8 @@ app = Flask(__name__)
 app.secret_key = 'nvjsnf9384'
 
 # DB connection 
-app.config['MYSQL_HOST'] = '35.244.104.154'
-app.config['MYSQL_USER'] = "root"
+app.config['MYSQL_HOST'] = '167.71.112.220'
+app.config['MYSQL_USER'] = "user"
 app.config['MYSQL_PASSWORD'] = "Banana123#"
 app.config['MYSQL_DB'] = 'sepm'
 

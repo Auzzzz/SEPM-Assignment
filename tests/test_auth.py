@@ -1,10 +1,9 @@
 import unittest
 import paths
 from app import app
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
 
-class AccountTest(unittest.TestCase):
+
+class AuthTest(unittest.TestCase):
     # executed prior to each test
     @classmethod
     def setUp(self):
@@ -13,10 +12,13 @@ class AccountTest(unittest.TestCase):
         app.config['DEBUG'] = False
         self.app = app.test_client()
         #db conifg
-        app.config['MYSQL_HOST'] = '35.244.104.154'
-        app.config['MYSQL_USER'] = "root"
+        app.config['MYSQL_HOST'] = '167.71.112.220'
+        app.config['MYSQL_USER'] = "user"
         app.config['MYSQL_PASSWORD'] = "Banana123#"
         app.config['MYSQL_DB'] = 'sepm'
+
+        
+    
 
     # executed after each test
     @classmethod
@@ -89,10 +91,6 @@ class AccountTest(unittest.TestCase):
         self.load_routes_after_login('/admin/alter',b'Add Location to a Tour')
         self.load_routes_after_login('/admin/tourtypes',b'All types')
         self.load_routes_after_login('/admin/tourtypes/create',b'Create a New tour type')
-
-    def test_create_admin_user(self):
-        response = self.create('test1','test1','Active','Admin')
-        self.assertEqual(response.status_code, 200)
         
 
 if __name__ == "__main__":

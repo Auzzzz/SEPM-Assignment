@@ -1,8 +1,7 @@
 import unittest
 import paths
 from app import app
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
+
 
 class AccountTest(unittest.TestCase):
     # executed prior to each test
@@ -50,21 +49,21 @@ class AccountTest(unittest.TestCase):
         data = dict(name = name,password = password,
         accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
     
-    def deactivate(self,name,password,accountStatus,accountType):
-        return self.app.post('/admin/create',
-        data = dict(name = name,password = password,
-        accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
+    # def deactivate(self,name,password,accountStatus,accountType):
+    #     return self.app.post('/admin/create',
+    #     data = dict(name = name,password = password,
+    #     accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
 
 
 
     ### Unit Test ###
-    def test_create_admin_user(self):
+    def test_create_user(self):
         response = self.create('test1','test1','1','1')
         self.assertEqual(response.status_code, 200)
     
-    def test_deactivate_admin_user(self):
-        response = self.create('test1','test1','1','1')
-        self.assertEqual(response.status_code, 200)
+    # def test_deactivate_user(self):
+    #     response = self.create('test1','test1','1','1')
+    #     self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()

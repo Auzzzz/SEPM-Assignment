@@ -49,6 +49,7 @@ class AccountTest(unittest.TestCase):
         data = dict(name = name,password = password,
         accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
     
+  
 
     ### Unit Test ###
     def test_create_user(self):

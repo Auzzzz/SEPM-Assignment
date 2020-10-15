@@ -47,8 +47,7 @@ class AccountTest(unittest.TestCase):
     def create(self,name,password,accountStatus,accountType):
         return self.app.post('/admin/create',
         data = dict(name = name,password = password,
-        accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
-    
+        accountStatus = accountStatus, accountType = accountType),follow_redirects=True) 
   
 
     ### Unit Test ###

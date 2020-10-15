@@ -31,10 +31,10 @@ class LocationTest(unittest.TestCase):
         pass
     
     ### Helper functions ###
-    def create(self,name, desc, gpscords, time):
+    def create(self,name, desc, gps, time):
          return self.app.post(
             '/admin/newlocation',
-            data=dict(name=name, desc=desc, gpscords= gpscords,time = time),
+            data=dict(name = name, desc = desc, gps = gps,time = time),
             follow_redirects=True
     )
 
@@ -45,12 +45,22 @@ class LocationTest(unittest.TestCase):
             follow_redirects=True
     )
 
+    def edit(self,name, gpscords, time, locationid):
+        return self.app.post(
+            '/admin/editlocation',
+            data=dict(name = name, gpscords = gpscords,time = time,locationid = locationid),
+            follow_redirects=True
+    )
+
 
     ### Unit Tests ###
 
     def test_create_location(self):
-        response = self.create("test","test",123.123,25)
+        response = self.create("test1","test1","123.123","25")
         self.assertEqual(response.status_code, 200)
+        with self.app.session_transaction() as session:
+            self.assertEqual(session['msg'], "Location Registered")
+         
 
 
 if __name__ == "__main__":

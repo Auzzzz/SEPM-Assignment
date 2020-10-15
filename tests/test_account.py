@@ -49,21 +49,14 @@ class AccountTest(unittest.TestCase):
         data = dict(name = name,password = password,
         accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
     
-    # def deactivate(self,name,password,accountStatus,accountType):
-    #     return self.app.post('/admin/create',
-    #     data = dict(name = name,password = password,
-    #     accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
-
-
 
     ### Unit Test ###
     def test_create_user(self):
         response = self.create('test1','test1','1','1')
         self.assertEqual(response.status_code, 200)
+        with self.app.session_transaction() as session:
+            self.assertEqual(session['msg'], "User Registered")
     
-    # def test_deactivate_user(self):
-    #     response = self.create('test1','test1','1','1')
-    #     self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()

@@ -41,7 +41,7 @@ class TourTypesTest(unittest.TestCase):
     def delete(self,typeid):
         return self.app.post(
             '/admin/tourtypes/delete',
-            data=dict(typedid = typeid),
+            data=dict(typeid = typeid),
             follow_redirects=True
     )
 
@@ -54,17 +54,19 @@ class TourTypesTest(unittest.TestCase):
 
 
     ### Unit Tests ###
+    ## works
+    # def test_create_tour_types(self): 
+    #     response = self.create("test")
+    #     self.assertEqual(response.status_code, 200)
 
-    def test_create_tour_types(self): 
-        response = self.create("test")
-        self.assertEqual(response.status_code, 200)
-
+    ## works
     def test_edit_tour_types(self):
-        response = self.edit("test1",5)
+        response = self.edit("test2",10)
         self.assertEqual(response.status_code, 200)
     
+    ## not working
     def test_delete_tour_types(self): 
-        response = self.delete(5)
+        response = self.delete(12)
         self.assertEqual(response.status_code, 200)
 
 

@@ -29,12 +29,8 @@
             {%endif%}
           {%endfor%}
           <td>
-            <form
-              action="{{ url_for('adminDeactivateUser') }}"
-              method="post"
-              autocomplete="off"
-            >
-              <input hidden id="accountid" value="{{ allusers[i]['accountid'] }}" />
+            <form action="{{ url_for('adminDeactivateUser') }}" method="post" autocomplete="off">
+              <input hidden id="accountid" name="accountid" value="{{ allusers[i]['accountid'] }}" />
               <input type="submit" class="btn btn-danger" value="Deactivate User" />
             </form>
           </td>

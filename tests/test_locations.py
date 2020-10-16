@@ -55,19 +55,19 @@ class LocationTest(unittest.TestCase):
 
     ### Unit Tests ###
 
-    # def test_create_location(self): - works
+    # def test_create_location(self):
     #     response = self.create("test1","test1","123.123","25")
     #     self.assertEqual(response.status_code, 200)
     #     with self.app.session_transaction() as session:
     #         self.assertEqual(session['msg'], "Location Registered")
     
-    # def test_edit_loaction(self):
-    #     response = self.edit("test1","200",20,"13")
-    #     self.assertEqual(response.status_code, 200)
+    def test_edit_loaction(self):
+        response = self.edit("test1","200",20,24)
+        self.assertEqual(response.status_code, 200)
     
-    # def test_delete_loaction(self):
-    #     response = self.delete("24")
-    #     self.assertEqual(response.status_code, 200)
+    def test_delete_loaction(self):
+        response = self.delete("24")
+        self.assertEqual(response.status_code, 200)
 
 
 if __name__ == "__main__":

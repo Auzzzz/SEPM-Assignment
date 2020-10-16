@@ -52,7 +52,7 @@
 						<a class="dropdown-item" href="{{ url_for('newtour')}}"> Create new Tour</a>
 						<a class="dropdown-item" href="{{ url_for('alterTour')}}"> Add a Location to a Tour </a>
 						{% endif %}
-						
+						<a class="dropdown-item" href="{{ url_for('aViewTours')}}"> Tour Schedules </a>
 				</li>
 				{% if session['accountTypeID'] == 1 %}
 				<li class="nav-item dropdown">

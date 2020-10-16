@@ -747,6 +747,55 @@ def tourtypesEditSubmit():
         #return to login screen
         return redirect(url_for('login'))
 
+                ### Tours Non-Admin ###
+@app.route('/TourSchedules', methods=['GET','POST'])
+def aViewTours():
+    #get all tours
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM tours')
+    #fetch the record
+    tours = cursor.fetchall()
+
+    #get all types
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM tour_types')
+    #fetch the record
+    tourtypes = cursor.fetchall()
+
+    return render_template('tourschedules.html', tours = tours, len = len(tours), tourtypes = tourtypes, tourlen = len(tourtypes))
+
+
+@app.route('/TourSchedules/indivdual', methods=['GET','POST'])
+def aViewToursIndivdual():
+    if request.method == 'POST' and 'tourid' in request.form:
+        tourid = request.form['tourid']
+        #get all tours
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM tours WHERE tourid = %s', [tourid])
+        #fetch the record
+        tours = cursor.fetchall()
+
+        #get all tour locations for each tour
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM tour_location where tourid = %s', [tourid])
+        #fetch the record
+        tour_location = cursor.fetchall()
+
+        #get all locations in the tour
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM location')
+        #fetch the record
+        location = cursor.fetchall()
+
+        #get all types
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM tour_types')
+        #fetch the record
+        tourtypes = cursor.fetchall()
+
+        return render_template('tourschedules_individual.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes))
+
+
   
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

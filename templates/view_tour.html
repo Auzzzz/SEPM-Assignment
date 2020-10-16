@@ -99,6 +99,46 @@
         <button class="btn btn-primary" type="submit" value="View Tour">Edit Tour Order</button>
     </div>
 </div>
-
+<br>
+<div class="card" >
+    {%for i in range (0,tl_len): %}
+        {% for x in range (0,loc_len): %}
+            {% if location[x]['id'] == tour_location[i]['locationid'] %}
+                <hr>
+                <div class="card" >
+                    <div class="card-body">
+                    <form action="{{ url_for('adminEditLocationTour') }}" method="post">
+                        <div class="form-group">
+                            <label for="location">Location Id</label>
+                            <input  class="form-control"  type ="text" name="locationid" value="{{ tour_location[i]['locationid'] }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Order No.</label>
+                            <input  class="form-control" type ="number" name="order" value="{{ tour_location[i]['order'] }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="Location Name">Location Name</label>
+                            <input  class="form-control" name ="name" value="{{location[x]['name']}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="Location Description">Description</label>
+                            <input  class="form-control" name ="desc" value="{{ location[x]['desc'] }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="Location GPS Cords">GPS Cords</label>
+                            <input  class="form-control" name = "gpscords" value="{{ location[x]['gpscords'] }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="Time spent at Location ">Time spent at Location </label>
+                            <input  class="form-control" name = "time" value="{{ location[x]['time'] }}">
+                        </div>
+                        <button class="btn btn-primary" type="submit" value="Edit Location">Edit Location - {{ tour_location[i]['locationid'] }}</button>
+                    </form>
+                </div>
+            </div>
+        {%endif%}
+    {%endfor%}  
+{%endfor%} 
+</div>
 
 {% endblock %}

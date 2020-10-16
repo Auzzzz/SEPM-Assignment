@@ -240,6 +240,32 @@ def adminEditLocation():
             #return to login screen
             return redirect(url_for('login'))
 
+#edit the location inside a tour
+@app.route('/admin/editlocationtour', methods=['GET', 'POST'])
+def adminEditLocationTour():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            if request.method == 'POST':
+
+                    locationid = request.form['locationid']
+                    name = request.form['name']
+                    desc = request.form['desc']
+                    gpscords = request.form['gpscords']
+                    time = request.form['time']
+
+                    #check db for user & password
+                    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                    cursor.execute("""Update location set name = %s, gpscords = %s, time = %s where id = %s""", [name, gpscords, time, locationid])
+                    mysql.connection.commit()
+                    
+                    return redirect(url_for('tours'))
+            else: 
+                #return to home if not an admin
+                return redirect(url_for('home'))
+        else:
+            #return to login screen
+            return redirect(url_for('login'))
+
 
 #add a anew location into the db 
 @app.route('/admin/newlocation', methods=['GET', 'POST'])
@@ -391,8 +417,15 @@ def individualTours():
                 tourtypes = cursor.fetchall()
 
                 locationcount = []
+                locationc = []
+                count = 1
                 for x in tour_location:
                     locationcount.append(x)
+                    for i in range (0, len(locationcount)):
+                        locationc.append(count)
+                        count =+ 1
+                        print(locationc)
+
                 locationc = len(locationcount)
 
                 return render_template('view_tour.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes), locationc = locationc)

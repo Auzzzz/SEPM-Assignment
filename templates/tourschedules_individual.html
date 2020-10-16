@@ -1,0 +1,50 @@
+
+{% extends 'header.html' %}
+
+{% block content %}
+<br>
+<div class="card">
+    <div class="card-body">
+        <b>
+        <h4>Indivdual Tour Schedule for {{ tours[0]['name'] }}</h4><p>({{ tours[0]['tourid']}})</p>
+        <p> Tour Description: {{ tours[0]['desc'] }}</p>
+        <p> Tour Type: {%for i in range (0,tourlen): %}
+            {% if tours[0]['tourTypeID'] == tourtypes[i]['tourtid']%}
+            <label for="accountStatus">{{ tourtypes[i]['name'] }} </label>
+            {%endif%}
+            {%endfor%}</p>
+        <p> Tour Length:{{ tours[0]['totaltime'] }} </p>
+        </b>
+        <br>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Location Id</th>
+                        <th scope="col">Location Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Time Spent at Location</th>
+                        <th scope="col">GPS Cords</th>
+                        <th scope="col">Order</th>
+                    </tr>
+                </thead>
+                {%for i in range (0,tl_len): %}
+                    {% for x in range (0,loc_len): %}
+                        {% if location[x]['id'] == tour_location[i]['locationid'] %}
+                            <tbody>
+                                <tr>
+                                    <th> {{ tour_location[i]['locationid'] }} </th>
+                                    <th> {{ location[x]['name'] }} </th>
+                                    <th> {{ location[x]['desc'] }} </th>
+                                    <th> {{ location[x]['time'] }} </th>
+                                    <th> {{ location[x]['gpscords'] }} </th>
+                                    <th> {{ tour_location[i]['order'] }} </th>
+                                </tr>
+                            </tbody>
+                        {%endif%}
+                    {%endfor%}
+                {%endfor%}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -29,7 +29,7 @@
             <label for="Time spent at Location ">Time spent at Location </label>
             <input  class="form-control"  type ="number" name="time" value="{{ locations[i]['time'] }}">
         </div>
-        <button class="btn btn-primary" type="submit" value="Edit location">Edit Location</button>
+        <button class="btn btn-primary" type="submit" value="Edit location">Update Location</button>
 
     </form>
     <form action="{{ url_for('adminDelLocation') }}" method="post">

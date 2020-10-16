@@ -6,8 +6,8 @@ app = Flask(__name__)
 app.secret_key = 'nvjsnf9384'
 
 # DB connection 
-app.config['MYSQL_HOST'] = '35.244.104.154'
-app.config['MYSQL_USER'] = "root"
+app.config['MYSQL_HOST'] = '167.71.112.220'
+app.config['MYSQL_USER'] = "user"
 app.config['MYSQL_PASSWORD'] = "Banana123#"
 app.config['MYSQL_DB'] = 'sepm'
 
@@ -327,6 +327,37 @@ def tourEditd():
         #return to login screen
         return redirect(url_for('login'))
 
+#edit the order of locations inside a tour
+@app.route('/admin/tour/edittourlocation', methods=['GET', 'POST'])
+def tourEditlocationOrder():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            if request.method == 'POST' and 'utlid' in request.form:
+
+                utlid = request.form.getlist('utlid')
+                order = request.form.getlist('order')
+
+                x = 0
+                for each in utlid:
+                    print(utlid[x], order[x])
+                    utlids = utlid[x]
+                    orders = order[x]
+
+                    #check db for user & password
+                    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                    cursor.execute("""UPDATE `tour_location` SET `order`= %s WHERE `utlid` = %s """, [order[x], utlid[x]])
+                    mysql.connection.commit()
+                    x += 1
+
+                return redirect(url_for('tours'))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
 
 #display all tours 
 @app.route('/admin/tour', methods=['GET', 'POST'])
@@ -359,8 +390,12 @@ def individualTours():
                 #fetch the record
                 tourtypes = cursor.fetchall()
 
-                
-                return render_template('view_tour.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes))
+                locationcount = []
+                for x in tour_location:
+                    locationcount.append(x)
+                locationc = len(locationcount)
+
+                return render_template('view_tour.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes), locationc = locationc)
 
         else: 
             #return to home if not an admin
@@ -554,6 +589,57 @@ def alterTourAdd():
     else:
         #return to login screen
         return redirect(url_for('login')) 
+
+### Tours Non-Admin ###
+@app.route('/TourSchedules', methods=['GET','POST'])
+def aViewTours():
+    #get all tours
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM tours')
+    #fetch the record
+    tours = cursor.fetchall()
+
+    #get all types
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM tour_types')
+    #fetch the record
+    tourtypes = cursor.fetchall()
+
+    return render_template('tourschedules.html', tours = tours, len = len(tours), tourtypes = tourtypes, tourlen = len(tourtypes))
+
+
+@app.route('/TourSchedules/indivdual', methods=['GET','POST'])
+def aViewToursIndivdual():
+    if request.method == 'POST' and 'tourid' in request.form:
+        tourid = request.form['tourid']
+        #get all tours
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM tours WHERE tourid = %s', [tourid])
+        #fetch the record
+        tours = cursor.fetchall()
+
+        #get all tour locations for each tour
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM tour_location where tourid = %s', [tourid])
+        #fetch the record
+        tour_location = cursor.fetchall()
+
+        #get all locations in the tour
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM location')
+        #fetch the record
+        location = cursor.fetchall()
+
+        #get all types
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM tour_types')
+        #fetch the record
+        tourtypes = cursor.fetchall()
+
+        return render_template('tourschedules_individual.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes))
+
+
+
 
 
 ### Tour Types ###

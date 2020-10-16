@@ -1,93 +1,104 @@
 {% extends 'header.html' %}
 {% block title %}Home{% endblock %}
-
 {% block content %}
 <br>
-<h2>Tour: {{ tours[0]['name'] }} <p>({{ tours[0]['tourid']}})</p></h2>
-
-
-<div class="card" >
+<h2>
+    Tour: {{ tours[0]['name'] }}
+    <p>({{ tours[0]['tourid']}})</p>
+</h2>
+<div class="card">
     <div class="card-body">
-    <form action="{{ url_for('adminEditLocation') }}" method="post">
-        <div class="form-group">
-            <label for="Tour">Tour ID</label>
-            <input  class="form-control"  type ="text" name="tourid" id ="tourid" value="{{ tours[0]['tourid']}}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input  class="form-control" type ="text" name="name" id ="name" value="{{ tours[0]['name'] }}" >
-        </div>
-        <div class="form-group">
-            <label for="name">Tour Description</label>
-            <input  class="form-control" type ="text" name="desc" id="desc" value="{{ tours[0]['desc'] }}" >
-        </div>
-        <div class="form-group">
-            <label for="Location Description">Total Tour Time</label>
-            <input  class="form-control" type ="text" name="time" id="time" value="{{ tours[0]['totaltime'] }}" readonly>
-        </div>
-        <div class="form-group">
-            {%for i in range (0,tourlen): %}
-            {% if tours[0]['tourTypeID'] == tourtypes[i]['tourtid']%}
-            <label for="accountStatus"> Tour Type - {{ tourtypes[i]['name'] }} </label>
-            {%endif%}
-            {%endfor%} 
-            <!--<input class="form-control" type="text" name="accountStatus" placeholder="Account Status" id="accountStatus" required>-->
-            <select id = "accountStatus" name="tourtype" required>
-                <option selected disabled>Choose here</option>
-                  {% for each in tourtypes %}
-                    <option value='{{each.tourtid}}'>{{each.name}}</option>
-                  {% endfor %}
-                  </select>
-        </div>
-    </form>
-    <form action="{{ url_for('tourEditd') }}" method="post" autocomplete="off">
-        <input hidden name="tourid" value="{{ tours[0]['tourid'] }}">
-        <button class="btn btn-primary" type="submit" value="View Tour">Edit Tour Header</button>
-    </form>
-    <br>
-    <form action="{{ url_for('toursDelete') }}" method="post" autocomplete="off">
-        <input hidden name="tourid" value="{{ tours[0]['tourid'] }}">
-        <button class="btn btn-danger" type="submit" value="View Tour">Delete Tour</button>
-    </form>
-</div>
-{%for i in range (0,tl_len): %}
-    {% for x in range (0,loc_len): %}
-        {% if location[x]['id'] == tour_location[i]['locationid'] %}
-            <hr>
-            <div class="card" >
-                <div class="card-body">
-                <form action="{{ url_for('tourEditOrder') }}" method="post" id="EOrder">
-                    <div class="form-group">
-                        <label for="location">Location Id</label>
-                        <input  class="form-control"  type ="text" name="tourid" value="{{ tour_location[i]['locationid'] }}" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Order No.</label>
-                        <input  class="form-control" type ="number" name="order" value="{{ tour_location[i]['order'] }}" >
-                    </div>
-                    <div class="form-group">
-                        <label for="Location Name">Location Name</label>
-                        <input  class="form-control" name = 'Test' value="{{location[x]['name']}}" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="Location Description">Description</label>
-                        <input  class="form-control" value="{{ location[x]['desc'] }}"readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="Location GPS Cords">GPS Cords</label>
-                        <input  class="form-control" value="{{ location[x]['gpscords'] }}"readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="Time spent at Location ">Time spent at Location </label>
-                        <input  class="form-control" value="{{ location[x]['time'] }}" readonly>
-                    </div>
-                </form>
-
-                </div>
+        <h4> Edit Tour Infomation</h4>
+        <form action="{{ url_for('adminEditLocation') }}" method="post">
+            <div class="form-group">
+                <label for="Tour">Tour ID</label>
+                <input class="form-control" type="text" name="tourid" id="tourid" value="{{ tours[0]['tourid']}}"
+                    readonly>
             </div>
-        {%endif%}
-    {%endfor%}  
-{%endfor%} 
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name" value="{{ tours[0]['name'] }}">
+            </div>
+            <div class="form-group">
+                <label for="name">Tour Description</label>
+                <input class="form-control" type="text" name="desc" id="desc" value="{{ tours[0]['desc'] }}">
+            </div>
+            <div class="form-group">
+                <label for="Location Description">Total Tour Time</label>
+                <input class="form-control" type="text" name="time" id="time" value="{{ tours[0]['totaltime'] }}"
+                    readonly>
+            </div>
+            <div class="form-group">
+                {%for i in range (0,tourlen): %}
+                {% if tours[0]['tourTypeID'] == tourtypes[i]['tourtid']%}
+                <label for="accountStatus"> Tour Type - {{ tourtypes[i]['name'] }} </label>
+                {%endif%}
+                {%endfor%}
+                <!--<input class="form-control" type="text" name="accountStatus" placeholder="Account Status" id="accountStatus" required>-->
+                <select id="accountStatus" name="tourtype" required>
+                    <option selected disabled>Choose here</option>
+                    {% for each in tourtypes %}
+                    <option value='{{each.tourtid}}'>{{each.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        <form action="{{ url_for('tourEditd') }}" method="post" autocomplete="off">
+            <input hidden name="tourid" value="{{ tours[0]['tourid'] }}">
+            <button class="btn btn-primary" type="submit" value="View Tour">Edit Tour Header</button>
+        </form>
+        <br>
+        <form action="{{ url_for('toursDelete') }}" method="post" autocomplete="off">
+            <input hidden name="tourid" value="{{ tours[0]['tourid'] }}">
+            <button class="btn btn-danger" type="submit" value="View Tour">Delete Tour</button>
+        </form>
+    </div>
+</div>
 <br>
-{% endblock %}
+<div class="card">
+    <div class="card-body">
+        <h4>Edit Tour Order</h4>
+        <form action="{{ url_for('tourEditlocationOrder') }}" method="post" autocomplete="off">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Location Id</th>
+                        <th scope="col">Location Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Time Spent at Location</th>
+                        <th scope="col">GPS Cords</th>
+                        <th scope="col">Order</th>
+                    </tr>
+                </thead>
+                {%for i in range (0,tl_len): %}
+                    {% for x in range (0,loc_len): %}
+                        {% if location[x]['id'] == tour_location[i]['locationid'] %}
+                            <tbody>
+                                <tr>
+                                    <input hidden name="utlid" value="{{ tour_location[i]['utlid'] }}"> 
+                                    <th> {{ tour_location[i]['locationid'] }} </th>
+                                    <th> {{ location[x]['name'] }} </th>
+                                    <th> {{ location[x]['desc'] }} </th>
+                                    <th> {{ location[x]['time'] }} </th>
+                                    <th> {{ location[x]['gpscords'] }} </th>
+                                    <th><select name="order" id="order">
+                                            <option value="{{ tour_location[i]['order'] }}" selected>current {{ tour_location[i]['order'] }}</option>
+                                            {% for i in range(0,locationc) %}
+                                            <option value="{{ tour_location[i]['order'] }}">{{ tour_location[i]['order'] }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        {%endif%}
+                    {%endfor%}
+                {%endfor%}
+                            <br>
+                        </form>
+        </table>
+        <button class="btn btn-primary" type="submit" value="View Tour">Edit Tour Order</button>
+    </div>
+</div>
 
+
+{% endblock %}

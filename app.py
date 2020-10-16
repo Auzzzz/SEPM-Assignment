@@ -127,9 +127,15 @@ def adminDeactivateUser():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
             if request.method == 'POST' and 'accountid' in request.form:
-                
+                accountid = request.form['accountid']
+                accountstatus = 2
 
-                return redirect(url_for('adminHome'))
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute("""Update account set accountStatus = %s where accountid = %s""", [accountstatus, accountid])
+                mysql.connection.commit()
+
+
+            return redirect(url_for('adminHome'))
 
         else: 
             #return to home if not an admin
@@ -201,9 +207,11 @@ def adminDelLocation():
         if session['accountTypeID'] == 1:
             if request.method == 'POST' and 'locationid' in request.form:
                 locationid = request.form['locationid']
+                print(locationid)
                 #check db for user & password
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute('DELETE FROM location WHERE id = %s', (locationid))
+                cursor.execute('DELETE FROM location WHERE id = %s', [locationid])
+                mysql.connection.commit()
 
                 return redirect(url_for('adminHomeLocations'))
 
@@ -331,20 +339,20 @@ def tours():
 def tourEditd():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
-            if request.method == 'POST' and 'tourid' in request.form:
+            if request.method == 'POST' and 'tourid' in request.form and 'name' in request.form and 'desc' in request.form and 'time' in request.form and 'tourtype' in request.form :
 
                 tourid = request.form['tourid']
                 name = request.form['name']
                 desc = request.form['desc']
                 time = request.form['time']
                 tourtype = request.form['tourtype']
-
+                print("check", tourid, name, desc, time, tourtype)
                 #check db for user & password
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute("""Update tours set name = %s, desc = %s, totaltime = %s, tourTypeID = %s where tourid = %s""", [name, desc, time, tourtype, tourid])
+                cursor.execute("""Update tours set name = %s, totaltime = %s, tourTypeID = %s where tourid = %s""", [name, time, tourtype, tourid])
                 mysql.connection.commit()
                     
-                return redirect(url_for('tours'))
+            return redirect(url_for('tours'))
 
         else: 
             #return to home if not an admin
@@ -365,7 +373,6 @@ def tourEditlocationOrder():
 
                 x = 0
                 for each in utlid:
-                    print(utlid[x], order[x])
                     utlids = utlid[x]
                     orders = order[x]
 
@@ -422,7 +429,7 @@ def individualTours():
                 for x in tour_location:
                     locationcount.append(x)
                     for i in range (0, len(locationcount)):
-                        locationc.append(count)
+                        locationc.append(i)
                         count =+ 1
                         print(locationc)
 
@@ -623,55 +630,6 @@ def alterTourAdd():
         #return to login screen
         return redirect(url_for('login')) 
 
-### Tours Non-Admin ###
-@app.route('/TourSchedules', methods=['GET','POST'])
-def aViewTours():
-    #get all tours
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM tours')
-    #fetch the record
-    tours = cursor.fetchall()
-
-    #get all types
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM tour_types')
-    #fetch the record
-    tourtypes = cursor.fetchall()
-
-    return render_template('tourschedules.html', tours = tours, len = len(tours), tourtypes = tourtypes, tourlen = len(tourtypes))
-
-
-@app.route('/TourSchedules/indivdual', methods=['GET','POST'])
-def aViewToursIndivdual():
-    if request.method == 'POST' and 'tourid' in request.form:
-        tourid = request.form['tourid']
-        #get all tours
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM tours WHERE tourid = %s', [tourid])
-        #fetch the record
-        tours = cursor.fetchall()
-
-        #get all tour locations for each tour
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM tour_location where tourid = %s', [tourid])
-        #fetch the record
-        tour_location = cursor.fetchall()
-
-        #get all locations in the tour
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM location')
-        #fetch the record
-        location = cursor.fetchall()
-
-        #get all types
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM tour_types')
-        #fetch the record
-        tourtypes = cursor.fetchall()
-
-        return render_template('tourschedules_individual.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes))
-
-
 
 
 
@@ -728,13 +686,13 @@ def tourtypesDelete():
     if 'islogged' in session:
         if session['accountTypeID'] == 1:
 
-            if request.method == 'POST' and 'name' in request.form:
+            if request.method == 'POST' and 'id' in request.form:
                 typeid = request.form['id']
                 #check db for user & password
                 cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-                cursor.execute('DELETE FROM tour_types WHERE id = %s', (typeid))
+                cursor.execute('DELETE FROM tour_types WHERE tourtid = %s', (typeid))
                 mysql.connection.commit()
-                return redirect(url_for('tourtypes'))
+            return redirect(url_for('tourtypes'))
 
         else: 
             #return to home if not an admin

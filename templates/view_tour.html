@@ -9,7 +9,7 @@
 <div class="card">
     <div class="card-body">
         <h4> Edit Tour Infomation</h4>
-        <form action="{{ url_for('adminEditLocation') }}" method="post">
+        <form action="{{ url_for('tourEditd') }}" method="post">
             <div class="form-group">
                 <label for="Tour">Tour ID</label>
                 <input class="form-control" type="text" name="tourid" id="tourid" value="{{ tours[0]['tourid']}}"
@@ -42,11 +42,9 @@
                     {% endfor %}
                 </select>
             </div>
-        </form>
-        <form action="{{ url_for('tourEditd') }}" method="post" autocomplete="off">
-            <input hidden name="tourid" value="{{ tours[0]['tourid'] }}">
             <button class="btn btn-primary" type="submit" value="View Tour">Edit Tour Header</button>
         </form>
+
         <br>
         <form action="{{ url_for('toursDelete') }}" method="post" autocomplete="off">
             <input hidden name="tourid" value="{{ tours[0]['tourid'] }}">

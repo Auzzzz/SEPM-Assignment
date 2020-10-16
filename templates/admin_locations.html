@@ -33,7 +33,7 @@
 
     </form>
     <form action="{{ url_for('adminDelLocation') }}" method="post">
-        <input type ="text" name="locationid" value="{{ locations[i]['id'] }}" hidden>
+        <input type ="text" id="locationsid" name="locationid" value="{{ locations[i]['id'] }}" hidden>
         <button class="btn btn-danger mt-3" type="submit" value="Delete location">Delete Location</button>
     </form>
     </div>

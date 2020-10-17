@@ -51,7 +51,7 @@ class TourTest(unittest.TestCase):
             data=dict(name = name, desc = desc,time = time, tourtype = tourtype,tourid = tourid),
             follow_redirects=True
     )
-
+    # def addLocation()
 
     ### Unit Tests ###
 

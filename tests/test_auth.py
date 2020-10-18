@@ -49,7 +49,17 @@ class AuthTest(unittest.TestCase):
         return self.app.post('/admin/create',
         data = dict(name = name,password = password,
         accountStatus = accountStatus, accountType = accountType),follow_redirects=True)
-
+    
+    def get_indvidual_tour(self,tourid):
+       return self.app.post('/TourSchedules/indivdual',
+        data = dict(tourid = tourid),follow_redirects=True)
+    
+    def load_indiviaul_tour_after_login(self):
+        response = self.get_indvidual_tour('38')
+        self.assertEqual(response.status_code, 200)
+      
+    
+    
     ### Unit Tests ###
 
     # Test login as Admin user
@@ -91,7 +101,8 @@ class AuthTest(unittest.TestCase):
         self.load_routes_after_login('/admin/alter',b'Add Location to a Tour')
         self.load_routes_after_login('/admin/tourtypes',b'All types')
         self.load_routes_after_login('/admin/tourtypes/create',b'Create a New tour type')
-        
+        self.load_routes_after_login('/TourSchedules',b'Tour Schedules')
+        self.load_indiviaul_tour_after_login()
 
 if __name__ == "__main__":
     unittest.main()

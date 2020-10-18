@@ -55,15 +55,26 @@ class AccountTest(unittest.TestCase):
   
 
     ### Unit Test ###
-    ## works
-    def test_create_user(self):
-        response = self.create('test1','test1','1','1')
+ 
+    def test_create_admin_user(self):
+        response = self.create('testAdmin','test1','1','1')
         self.assertEqual(response.status_code, 200)
         with self.app.session_transaction() as session:
             self.assertEqual(session['msg'], "User Registered")
-    #$ works
-    def test_deactivate_user(self):
-        response = self.deactivate(2,160)
+    
+    def test_create_worker_user(self):
+        response = self.create('testWorker','test1','2','1')
+        self.assertEqual(response.status_code, 200)
+        with self.app.session_transaction() as session:
+            self.assertEqual(session['msg'], "User Registered")
+    
+   
+    def test_deactivate_admin_user(self):
+        response = self.deactivate(2,169)
+        self.assertEqual(response.status_code, 200)
+    
+    def test_deactivate_worker_user(self):
+        response = self.deactivate(2,170)
         self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":

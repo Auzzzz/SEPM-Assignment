@@ -794,7 +794,153 @@ def aViewToursIndivdual():
         tourtypes = cursor.fetchall()
 
         return render_template('tourschedules_individual.html', tourid = tourid, tours = tours, len = len(tours), tour_location = tour_location, tl_len = len(tour_location), location = location, loc_len = len(location), tourtypes = tourtypes, tourlen = len(tourtypes))
+### Updates ###
+#updtae Page
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    if 'islogged' in session:
 
+        return render_template('submit_request.html')
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+#submit update request
+@app.route('/submitupdate', methods=['GET', 'POST'])
+def submitupdate():
+    if 'islogged' in session:
+
+        if request.method == 'POST' and 'text' in request.form:
+            #form values into variables
+            text = request.form['text']
+            
+            #insert account into DB
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('INSERT INTO idea VALUES (NULL, %s)', [text])
+            mysql.connection.commit()
+
+        return redirect(url_for('home'))
+
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
+#Admin view
+@app.route('/admin/idea', methods=['GET', 'POST'])
+def ideaAdmin():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            #get all tours
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM idea')
+            #fetch the record
+            idea = cursor.fetchall()
+
+            return render_template('admin_idea.html', idea = idea, len = len(idea))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+#delete a issue
+@app.route('/admin/deleteidea', methods=['GET', 'POST'])
+def adminDelidea():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            if request.method == 'POST' and 'id' in request.form:
+                aid = request.form['id']
+                #check db for user & password
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('DELETE FROM idea WHERE id = %s', [aid])
+                mysql.connection.commit()
+
+                return redirect(url_for('ideaAdmin'))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
+
+### Issues ###
+#updtae Page
+@app.route('/issue', methods=['GET', 'POST'])
+def issue():
+    if 'islogged' in session:
+        session['msg'] = ""
+        return render_template('submit_issue.html')
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+#submit update request
+@app.route('/submitissue', methods=['GET', 'POST'])
+def submitissue():
+    if 'islogged' in session:
+
+        if request.method == 'POST' and 'text' in request.form:
+            #form values into variables
+            text = request.form['text']
+            
+            #insert account into DB
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('INSERT INTO issues VALUES (NULL, %s)', [text])
+            mysql.connection.commit()
+
+        return redirect(url_for('home'))
+
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+
+#Admin view
+@app.route('/admin/issues', methods=['GET', 'POST'])
+def issuesAdmin():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            #get all tours
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM issues')
+            #fetch the record
+            issue = cursor.fetchall()
+
+            return render_template('admin_issue.html', issue = issue, len = len(issue))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
+
+#delete a issue
+@app.route('/admin/deleteissue', methods=['GET', 'POST'])
+def adminDelissue():
+    if 'islogged' in session:
+        if session['accountTypeID'] == 1:
+            if request.method == 'POST' and 'id' in request.form:
+                aid = request.form['id']
+                #check db for user & password
+                cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute('DELETE FROM issues WHERE id = %s', [aid])
+                mysql.connection.commit()
+
+                return redirect(url_for('issuesAdmin'))
+
+        else: 
+            #return to home if not an admin
+            return redirect(url_for('home'))
+    else:
+        #return to login screen
+        return redirect(url_for('login'))
 
   
 if __name__ == '__main__':

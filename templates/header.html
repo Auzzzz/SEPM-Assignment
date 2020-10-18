@@ -65,6 +65,20 @@
 						<a class="dropdown-item" href="{{ url_for('tourtypesCreate')}}"> Create Tour Types </a>
 				</li>
 				{% endif %}
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Forms
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="{{ url_for('update')}}"> Update Form </a>
+						<a class="dropdown-item" href="{{ url_for('issue')}}"> Issue Form </a>
+						<hr>
+						{% if session['accountTypeID'] == 1 %}
+						<a class="dropdown-item" href="{{ url_for('issuesAdmin')}}"> Issue Admin </a>
+						<a class="dropdown-item" href="{{ url_for('ideaAdmin')}}"> Update Ideas Admin </a>
+						{% endif %}
+				</li>
 			</ul>
 
 		</div>

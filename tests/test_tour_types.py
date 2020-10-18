@@ -54,7 +54,6 @@ class TourTypesTest(unittest.TestCase):
 
 
     ### Unit Tests ###
-    ## works
     def test_create_tour_types(self): 
         response = self.create("test")
         self.assertEqual(response.status_code, 200)

@@ -69,10 +69,10 @@ class AuthTest(unittest.TestCase):
         self.assertIn(b'Welcome back, Admin - Chris K!', response.data)
    
     # Test login as Worker user
-    def test_valid_admin_worker(self):
-        response = self.login('145', '123')
+    def test_valid_worker_login(self):
+        response = self.login('178', '123')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome back, ATest!', response.data)
+        self.assertIn(b'Welcome back, Jenna!', response.data)
 
     # Test login with invalid credential
     def test_invalid_login(self):
@@ -88,7 +88,7 @@ class AuthTest(unittest.TestCase):
         self.assertIn(b'logged out', response.data)
 
     # Test routes after login
-    def test_load_routes_after_login(self):
+    def test_load_routes_after_login_admin(self):
         response = self.login('1', '123')
         self.assertEqual(response.status_code, 200)
         self.load_routes_after_login('/home',b'Welcome back, Admin - Chris K!')
@@ -102,7 +102,14 @@ class AuthTest(unittest.TestCase):
         self.load_routes_after_login('/admin/tourtypes',b'All types')
         self.load_routes_after_login('/admin/tourtypes/create',b'Create a New tour type')
         self.load_routes_after_login('/TourSchedules',b'Tour Schedules')
-        self.load_indiviaul_tour_after_login()
+      
+    
+    def test_load_routes_after_login_worker(self):
+        response = self.login('178', '123')
+        self.assertEqual(response.status_code, 200)
+        self.load_routes_after_login('/TourSchedules',b'Tour Schedules')
+        
+
 
 if __name__ == "__main__":
     unittest.main()

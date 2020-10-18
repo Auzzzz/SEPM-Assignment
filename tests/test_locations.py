@@ -38,13 +38,6 @@ class LocationTest(unittest.TestCase):
             follow_redirects=True
     )
 
-    def delete(self,locationid):
-        return self.app.post(
-            '/admin/deletelocation',
-            data=dict(locationid=locationid),
-            follow_redirects=True
-    )
-
     def edit(self,name, gpscords, time, locationid):
         return self.app.post(
             '/admin/editlocation',
@@ -65,10 +58,6 @@ class LocationTest(unittest.TestCase):
     def test_edit_location(self):
         response = self.edit("test1","200.200","0","14")
         self.assertEqual(response.status_code, 200)
-
-    # def test_delete_loaction(self):
-    #     response = self.delete("31")
-    #     self.assertEqual(response.status_code, 200)
 
 
 if __name__ == "__main__":

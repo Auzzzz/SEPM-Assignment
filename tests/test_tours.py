@@ -55,17 +55,16 @@ class TourTest(unittest.TestCase):
 
     ### Unit Tests ###
 
-    # works
+  
     def test_create_tour(self): 
         response = self.create("test","test",0,1)
         self.assertEqual(response.status_code, 200)
    
-    ## works
+ 
     def test_edit_tour(self):
         response = self.edit("new tour1","test","20","4","45")
         self.assertEqual(response.status_code, 200)
     
-    ## works
     def test_delete_tour(self): 
         response = self.delete(47)
         self.assertEqual(response.status_code, 200)

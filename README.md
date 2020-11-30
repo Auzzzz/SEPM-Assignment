@@ -7,3 +7,5 @@ In the case we used the Scrum frame work with a client provided to us, apart fro
 
 This website was made using Python, Flask & MySQL with a very basic front end from CSS.
 
+This was a team based assignment
+

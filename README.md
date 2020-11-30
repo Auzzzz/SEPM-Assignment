@@ -1,5 +1,5 @@
 # SEPM-Assignment
-#Software Engineering Project Management 2020 Semester 1
+## Software Engineering Project Management 2020 Semester 1
 
 The course is designed to allow students to learn how to take a client brief and follow a design principle.
 
